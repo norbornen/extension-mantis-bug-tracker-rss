@@ -20,6 +20,7 @@ up:
 
 ci:
 	git status
+	git pull
 	git add src/common/* EXTENSIONS/*
 	git ci -m '.' -a
 	git push
