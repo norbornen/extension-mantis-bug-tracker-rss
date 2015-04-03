@@ -3,7 +3,8 @@ KangoAPI.onReady(function(){
 	*
 	*/
 	var storage = new Storage(),
-		optionsBody = $('#options .panel .panel-body');
+		optionsBody = $('#options .panel .panel-body'),
+		badge = new Badge();
 
 	/**
 	 *	onLoad page
@@ -44,5 +45,6 @@ KangoAPI.onReady(function(){
 			}
 		});
 		storage.renew(array);
+		badge.touch('…');
 	}
 });

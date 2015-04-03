@@ -2,8 +2,8 @@ function Badge(){
 	this.storage = new Storage();
 }
 Badge.prototype = {
-	'touch' : function(){
-		kango.ui.browserButton.setBadgeValue('!');
+	'touch' : function(n){
+		kango.ui.browserButton.setBadgeValue(n || '!');
 	},
 	'blank' : function(){
 		kango.ui.browserButton.setBadgeValue();

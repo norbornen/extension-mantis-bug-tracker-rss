@@ -22,54 +22,60 @@ KangoAPI.onReady(function(){
 	});
 
 
-	var storage = new Storage();
-	var tasks = storage.urls().map(function(url){ return ajax(url) });
-	Q.all(tasks).then(
-		function(results){
-			var items = [],
-				dates =[],
-				errors = [];
-			results.forEach(function(n){
-				if (n.error) {
-					errors.push(new Err(n));
-				} else {
-					var list = !n.item ? [] : !Array.isArray(n.item) ? [n.item] : n.item; delete n.item;
-					(list || []).forEach(function(item){
-						item.feed = n;
-						items.push(new Item(item));
-						dates.push(Date.parse(item.pubDate));
-					});
-				}
-			});
+	var storage = new Storage(),
+		tasks = storage.urls().map(function(url){ return ajax(url) });
+	if (tasks.length > 0) {
+		Q.all(tasks).then(
+			function(results){
+				var items = [],
+					dates =[],
+					errors = [];
+				results.forEach(function(n){
+					if (n.error) {
+						errors.push(new Err(n));
+					} else {
+						var list = !n.item ? [] : !Array.isArray(n.item) ? [n.item] : n.item; delete n.item;
+						(list || []).forEach(function(item){
+							item.feed = n;
+							items.push(new Item(item));
+							dates.push(Date.parse(item.pubDate));
+						});
+					}
+				});
 
-			/*
-				обновим счётчик и погасим бейдж
-			*/
-			(new Badge()).handle(Math.max.apply(Math, dates), 1);
+				/*
+					обновим счётчик и погасим бейдж
+				*/
+				(new Badge()).handle(Math.max.apply(Math, dates), 1);
 
-			/*
-				собраны записи с нескольких потоков. отсортируем их
-			*/
-			items = items.sort(function(a, b){ return Date.parse(b.pubDate) - Date.parse(a.pubDate); });
+				/*
+					собраны записи с нескольких потоков. отсортируем их
+				*/
+				items = items.sort(function(a, b){ return Date.parse(b.pubDate) - Date.parse(a.pubDate); });
 
-			/*
-				display it
-			*/
-			var divItems = $('#mantis'), divErrors = $('#errors');
-			divItems.empty();
-			divErrors.empty();
-			items.forEach(function(o){
-				o.write(divItems);
-			});
-			errors.forEach(function(o){
-				o.write(divErrors);
-			});
-			$('[data-toggle="tooltip"]', divItems).tooltip();
-		},
-		function(err){
-			console.error(err);
-		}
-	);
+				/*
+					display it
+				*/
+				var divItems = $('#mantis'), divErrors = $('#errors');
+				divItems.empty();
+				divErrors.empty();
+				items.forEach(function(o){
+					o.write(divItems);
+				});
+				errors.forEach(function(o){
+					o.write(divErrors);
+				});
+				$('[data-toggle="tooltip"]', divItems).tooltip();
+			},
+			function(err){
+				console.error(err);
+			}
+		);
+	} else {
+		(new Badge()).touch('?');
+		window.close();
+		kango.ui.optionsPage.open();
+	}
 });
 
 function Item(data) {

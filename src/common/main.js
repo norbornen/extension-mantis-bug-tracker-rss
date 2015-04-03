@@ -1,35 +1,40 @@
 function MantisBTExtension() {
     this.storage = new Storage();
 
-    this.go();
+    this.poll();
 }
 
 MantisBTExtension.prototype = {
-    'go' : function(){
+    'poll' : function(){
         var self = this,
             storage = this.storage,
-            tasks = storage.urls().map(function(url){ return ajax(url); });
+            tasks = storage.urls().map(function(url){ return ajax(url); }),
+            badge = new Badge();
 
-    	Q.all(tasks).then(
-    		function(results){
-    			var dates = [];
-    			results.forEach(function(n){
-    				if (!n.error) {
-                        var list = !n.item ? [] : !Array.isArray(n.item) ? [n.item] : n.item; delete n.item;
-                        list.forEach(function(item){
-                            dates.push(Date.parse(item.pubDate));
-                        });
-    				}
-    			});
-                (new Badge()).handle(Math.max.apply(Math, dates));
-    		},
-    		function(err){
-    			console.error(err);
-    		}
-    	);
+    	if (tasks.length > 0) {
+            Q.all(tasks).then(
+        		function(results){
+        			var dates = [];
+        			results.forEach(function(n){
+        				if (!n.error) {
+                            var list = !n.item ? [] : !Array.isArray(n.item) ? [n.item] : n.item; delete n.item;
+                            list.forEach(function(item){
+                                dates.push(Date.parse(item.pubDate));
+                            });
+        				}
+        			});
+                    badge.handle(Math.max.apply(Math, dates));
+        		},
+        		function(err){
+        			console.error(err);
+        		}
+        	);
+        } else {
+            badge.touch('?');
+        }
 
         setTimeout(function(){
-            self.go();
+            self.poll();
         }, 10*60*1000);
     }
 };
