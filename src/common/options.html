@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <title>MantisBT Exception</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="static/bootstrap/css/google-plus-theme.bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="lib/style.css" type="text/css">
+    <script type="text/javascript" src="kango-ui/kango_api.js"></script>
+    <script type="text/javascript" src="static/jquery.min.js"></script>
+    <script type="text/javascript" src="static/tmpl.js"></script>
+    <script type="text/javascript" src="lib/storage.js"></script>
+    <script type="text/javascript" src="lib/options.js"></script>
+</head>
+<body>
+    <div id="header" class="nav navbar-fixed-top">
+        <h1>MantisBT</h1>
+    </div>
+    <div id="content">
+        <div id="options">
+            <div class="panel">
+                <div class="panel-body"></div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary" role="add">Add address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="template_string">
+        <div class="input-group input-group-sm">
+            <input type="text" class="form-control" placeholder="rss-feed url" value="<%= url %>">
+            <span class="input-group-btn">
+                <button class="btn btn-default" role="delete">
+                    <span style="color:#dd4b39;" class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+        </div>
+    </script>
+</body>
+</html>

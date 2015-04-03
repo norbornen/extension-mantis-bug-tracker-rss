@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <title>MantisBT Exception</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="static/bootstrap/css/google-plus-theme.bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="lib/style.css" type="text/css">
+    <style media="screen">
+        body {
+            max-width: 300px;
+            min-width: 250px;
+        }
+    </style>
+    <script type="text/javascript" src="kango-ui/kango_api.js"></script>
+    <script type="text/javascript" src="static/jquery.min.js"></script>
+    <script type="text/javascript" src="static/xml2json.js"></script>
+    <script type="text/javascript" src="static/q.js"></script>
+    <script type="text/javascript" src="static/moment-with-locales.js"></script>
+    <script type="text/javascript" src="static/tmpl.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/storage.js"></script>
+    <script type="text/javascript" src="lib/badge.js"></script>
+    <script type="text/javascript" src="lib/ajax.js"></script>
+    <script type="text/javascript" src="lib/popup.js"></script>
+</head>
+<body>
+    <div id="header" class="nav navbar-fixed-top">
+        <h1>MantisBT</h1>
+        <div class="opt">
+            <span class="glyphicon glyphicon-cog" role="icon-settings" title="Settings" data-toggle="tooltip" data-placement="bottom"></span>
+        </div>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="errors"></div>
+        <div id="mantis"></div>
+    </div>
+    <script type="text/html" id="template_error">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <%= error %>
+        </div>
+    </script>
+    <script type="text/html" id="template_mantis">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4><a href="<%= href %>"><%= title %></a></h4></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <span class="label label-b label-primary">
+                            <span class="glyphicon glyphicon-time" style="display: block"></span> <span><%= date %></span>
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        <a href="<%= feedHref %>" title="<%= feedHref %>" class="label label-b label-primary" data-toggle="tooltip" data-placement="bottom">
+                            <%= feed %>
+                        </a>
+                        <span class="label label-info"><span class="glyphicon glyphicon-tag"></span> <%= category %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

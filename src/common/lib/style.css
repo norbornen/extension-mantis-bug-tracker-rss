@@ -1,0 +1,106 @@
+body {
+    color: rgb(201, 201, 201);
+    font-family: Arial, serif;
+    font-size: 13px;
+    font-weight: lighter;
+    height: auto;
+}
+#header {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    background-color: #447299;
+    height: 36px;
+    width: 100%;
+}
+#header h1 {
+    margin: 0 auto;
+    padding: 0;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 36px;
+}
+#header .opt {
+    position: absolute;
+    top: 30%;
+    right: 3px;
+    font-size: 10px;
+}
+#header .opt span {
+    margin: 0 2px;
+    cursor: pointer;
+}
+#content {
+    color: rgb(42, 42, 42);
+    margin: 42px 5px 0 5px;
+}
+#errors .alert {
+    overflow-x: hidden;
+    margin-bottom: 10px;
+}
+#mantis .panel {
+    margin-bottom: 10px;
+}
+#mantis .panel .panel-heading, #mantis .panel .panel-body {
+    padding: 7px;
+}
+#mantis .panel .panel-body {
+    padding-top: 0;
+}
+#mantis .panel h4 {
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 7px;
+}
+#mantis .panel h4 a {
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(38, 38, 38);
+}
+mantis .panel h4 a:hover {
+    text-decoration: underline;
+}
+#mantis .panel .panel-body {
+    font-size: 12px;
+}
+#mantis .panel .panel-body .row {
+  margin-right: -4px;
+  margin-left: -4px;
+}
+#mantis .panel .panel-body .col-xs-4, #mantis .panel .panel-body .col-xs-8 {
+  padding-right: 4px;
+  padding-left: 4px;
+}
+#mantis .panel .panel-body .label {
+    white-space: normal;
+    text-align: left;
+    padding: .4em;
+    margin-bottom: 2px;
+}
+#mantis .panel .panel-body .label-b {
+    display: block;
+}
+#mantis .panel .panel-body .label-b .glyphicon {
+    display: block;
+    float: left;
+    margin-right: 3px;
+    height: 3em;
+}
+#options {
+    min-width: 250px;
+    max-width: 600px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#options .panel .input-group {
+    margin-bottom: 10px;
+}
+#options .panel .input-group:last-child {
+    margin-bottom: 0;
+}

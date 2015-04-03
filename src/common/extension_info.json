@@ -1,0 +1,22 @@
+{
+    "name": "Mantis Bug Tracker Browser Extention",
+    "description": "Mantis Bug Tracker Browser Extention",
+    "creator": "norbornen",
+    "version": "0.1.1",
+    "content_scripts": [],
+    "background_scripts": [
+        "static/q.js",
+        "static/xml2json.js",
+        "lib/storage.js",
+        "lib/badge.js",
+        "lib/ajax.js",
+        "main.js"
+    ],
+    "browser_button": {
+        "caption": "MantisBT",
+        "icon": "icons/button.png",
+        "tooltipText": "MantisBT",
+        "popup": {"url": "popup.html", "width": 300, "height": 400}
+    },
+    "options_page": "options.html"
+}
