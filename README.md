@@ -1,6 +1,6 @@
-# Mantis Bug Tracker watcher
+# Mantis Bug Tracker rss feeds reader
 
-Browser Extention for watching Mantis Bug Tracker rss feeds.
+Browser Extension for reading Mantis Bug Tracker rss feeds.
 
 https://www.mantisbt.org/
 
