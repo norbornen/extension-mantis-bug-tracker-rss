@@ -1,0 +1,1 @@
+# mantis-bug-tracker-extention
