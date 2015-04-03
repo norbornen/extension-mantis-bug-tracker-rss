@@ -55,7 +55,9 @@
                         <a href="<%= feedHref %>" title="<%= feedHref %>" class="label label-b label-primary" data-toggle="tooltip" data-placement="bottom">
                             <%= feed %>
                         </a>
-                        <span class="label label-info"><span class="glyphicon glyphicon-tag"></span> <%= category %></span>
+						<% if (category) { %>
+	                        <span class="label label-info"><span class="glyphicon glyphicon-tag"></span> <%= category %></span>
+						<% } %>
                     </div>
                 </div>
             </div>
