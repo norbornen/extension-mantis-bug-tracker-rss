@@ -5,8 +5,8 @@
     "version": "1.0.2",
     "content_scripts": [],
     "background_scripts": [
-        "static/q.js",
-        "static/xml2json.js",
+        "lib/vendor/q.js",
+        "lib/vendor/xml2json.js",
         "lib/storage.js",
         "lib/badge.js",
         "lib/ajax.js",
