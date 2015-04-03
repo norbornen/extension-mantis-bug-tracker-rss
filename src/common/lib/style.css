@@ -39,6 +39,7 @@ body {
 }
 #errors .alert {
     overflow-x: hidden;
+	text-overflow: ellipsis;
     margin-bottom: 10px;
 }
 #mantis .panel {

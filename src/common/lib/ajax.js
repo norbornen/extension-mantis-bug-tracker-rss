@@ -17,11 +17,11 @@ function ajax(url) {
 						var json = JSON.parse(xml2json(xml, ''));
 						result = json.hasOwnProperty('rss') ? json.rss.channel : json;
 					} else {
-						result = {'error': 'Could not detect content type for ' + url.replace(/\?.+?$/, '?…'), 'txt': txt};
+						result = {'error': 'Could not detect content type for ' + url, 'txt': txt};
 					}
 					resolve(result);
 				} else {
-					resolve({'url': url, 'status': data.status, 'error': data.response || 'Could not load ' + url.replace(/\?.+?$/, '?…')});
+					resolve({'url': url, 'status': data.status, 'error': data.response || 'Could not load ' + url});
 				}
 			}
 		);
