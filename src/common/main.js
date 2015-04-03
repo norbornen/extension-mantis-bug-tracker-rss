@@ -1,7 +1,10 @@
 function MantisBTExtension() {
+    var self = this;
     this.storage = new Storage();
 
-    this.poll();
+    setTimeout(function(){
+        self.poll();
+    }, 10000);
 }
 
 MantisBTExtension.prototype = {
