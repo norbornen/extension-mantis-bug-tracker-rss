@@ -11,3 +11,5 @@ src/common/static/bootstrap/css/bootstrap.css
 src/common/static/bootstrap/css/bootstrap.css.map
 src/common/static/bootstrap/js/bootstrap.js
 src/common/static/bootstrap/js/npm.js
+.DS_Store
+DEADJOE
