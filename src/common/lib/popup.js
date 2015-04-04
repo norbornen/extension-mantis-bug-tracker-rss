@@ -1,6 +1,6 @@
 KangoAPI.onReady(function(){
 	/*
-		Установим родную локаль пользователя
+		User defined locale set
 	*/
 	var locale = window.navigator.userLanguage || window.navigator.language || 'en';
 	moment.locale(locale);
@@ -22,11 +22,20 @@ KangoAPI.onReady(function(){
 	});
 
 
+
+	/*
+		Show preloader
+	*/
+	var preloader = new Preloader();
+	$('body').prepend(preloader.run());
+
+	/*
+		Poll urls
+	*/
 	var storage = new Storage(),
 		tasks = storage.urls().map(function(url){ return ajax(url); }),
 		tasksLength = tasks.length;
 	if (tasksLength > 0) {
-
 		var colors = [];
 		if (tasksLength > 1) {
 			var rainbow = new Rainbow();
@@ -37,8 +46,14 @@ KangoAPI.onReady(function(){
 	        }
 		}
 
-		Q.all(tasks).then(
+		Q.all(tasks)
+		.then(function(results){
+			preloader.hide();
+			return results;
+		})
+		.then(
 			function(results){
+				console.log(results);
 				var items = [],
 					dates =[],
 					errors = [];
@@ -57,28 +72,30 @@ KangoAPI.onReady(function(){
 				});
 
 				/*
-					обновим счётчик и погасим бейдж
+					renew badge
 				*/
 				(new Badge()).handle(Math.max.apply(Math, dates), 1);
 
 				/*
-					собраны записи с нескольких потоков. отсортируем их
+					items collected from several feeds. sort this array by pubDate
 				*/
 				items = items.sort(function(a, b){ return Date.parse(b.pubDate) - Date.parse(a.pubDate); });
 
 				/*
-					display it
+					display items and errors
 				*/
-				var divItems = $('#mantis'), divErrors = $('#errors');
-				divItems.empty();
-				divErrors.empty();
-				items.forEach(function(o){
-					o.write(divItems);
-				});
-				errors.forEach(function(o){
-					o.write(divErrors);
-				});
-				$('[data-toggle="tooltip"]', divItems).tooltip();
+				$('#mantis').empty()
+					.append(items.map(function(o){ return o.write(); }))
+					.find('[data-toggle="tooltip"]').tooltip();
+				$('#errors').empty()
+					.append(errors.map(function(o){ return o.write(); }));
+
+				/*
+					store items to localStorage
+				*/
+				if (items.length > 0) {
+					storage.saveItems(items);
+				}
 			},
 			function(err){
 				console.error(err);

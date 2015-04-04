@@ -1,10 +1,14 @@
 function Storage(){
-	this.storageName = 'urls';
+	this.urlsName = 'urls';
 	this.badgeName = 'badge';
+	this.itemsName = 'items';
 }
 Storage.prototype = {
+	/*
+		Urls
+	*/
 	'rawData': function(){
-		return kango.storage.getItem(this.storageName) || {};
+		return kango.storage.getItem(this.urlsName) || {};
 	},
 	'urls': function(){
 		return Object.keys(this.rawData());
@@ -18,7 +22,7 @@ Storage.prototype = {
 		}
 	},
 	'save' : function(data){
-		kango.storage.setItem(this.storageName, data);
+		kango.storage.setItem(this.urlsName, data);
 	},
 	'renew' : function(urls){
 		var data = this.rawData(),
@@ -30,6 +34,9 @@ Storage.prototype = {
 		this.save(newData);
 	},
 
+	/*
+		Badge
+	*/
 	'badge' : function (n){
 		var badge = kango.storage.getItem(this.badgeName);
 		return parseInt(badge || 0, 10);
@@ -38,5 +45,15 @@ Storage.prototype = {
 		if (n > 0) {
 			kango.storage.setItem(this.badgeName, parseInt(n, 10));
 		}
+	},
+
+	/*
+		Items
+	*/
+	'items' : function (n){
+		return kango.storage.getItem(this.itemsName) || [];
+	},
+	'saveItems' : function(items) {
+		kango.storage.setItem(this.itemsName, items || []);
 	}
 };

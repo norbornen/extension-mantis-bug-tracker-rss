@@ -7,6 +7,21 @@ body {
     margin: 0;
     padding: 0;
 }
+body.body300 {
+    max-width: 300px;
+    min-width: 250px;
+}
+body.body600 {
+    max-width: 600px;
+    min-width: 550px;
+}
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
 #header {
     position: fixed;
     right: 0;
