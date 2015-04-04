@@ -23,20 +23,33 @@ KangoAPI.onReady(function(){
 
 
 	var storage = new Storage(),
-		tasks = storage.urls().map(function(url){ return ajax(url) });
-	if (tasks.length > 0) {
+		tasks = storage.urls().map(function(url){ return ajax(url); }),
+		tasksLength = tasks.length;
+	if (tasksLength > 0) {
+
+		var colors = [];
+		if (tasksLength > 1) {
+			var rainbow = new Rainbow();
+	        rainbow.setSpectrum('e1e1e1', 'ffffff');
+	        rainbow.setNumberRange(1, tasksLength);
+	        for (var i = 1; i <= tasksLength; i++) {
+	            colors.push('#' + rainbow.colourAt(i));
+	        }
+		}
+
 		Q.all(tasks).then(
 			function(results){
 				var items = [],
 					dates =[],
 					errors = [];
-				results.forEach(function(n){
+				results.forEach(function(n, idx){
 					if (n.error) {
 						errors.push(new Err(n));
 					} else {
 						var list = !n.item ? [] : !Array.isArray(n.item) ? [n.item] : n.item; delete n.item;
 						(list || []).forEach(function(item){
 							item.feed = n;
+							item.bgColor = colors[idx];
 							items.push(new Item(item));
 							dates.push(Date.parse(item.pubDate));
 						});
@@ -89,7 +102,8 @@ function Item(data) {
 			'date': moment(self.pubDate).calendar(),
 			'category': self.category,
 			'feed': self.feed.title,
-			'feedHref': self.feed.link
+			'feedHref': self.feed.link,
+			'bgColor': self.bgColor
 		});
 		if (el) {
 			el.append(html);

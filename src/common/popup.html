@@ -18,6 +18,7 @@
     <script src="lib/vendor/q.js"></script>
     <script src="lib/vendor/moment-with-locales.js"></script>
     <script src="lib/vendor/tmpl.js"></script>
+    <script src="lib/vendor/rainbowvis.min.js"></script>
     <script src="lib/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/storage.js"></script>
     <script src="lib/badge.js"></script>
@@ -39,8 +40,10 @@
         </div>
     </script>
     <script type="text/html" id="template_mantis">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h4><a href="<%= href %>"><%= title %></a></h4></div>
+        <div class="panel panel-default" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
+            <div class="panel-heading" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
+                <h4><a href="<%= href %>"><%= title %></a></h4>
+            </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-4">

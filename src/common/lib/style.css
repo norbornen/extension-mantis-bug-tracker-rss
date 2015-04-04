@@ -44,6 +44,9 @@ body {
 #mantis .panel {
     margin-bottom: 10px;
 }
+#mantis .panel .panel-heading {
+    border-color: transparent;
+}
 #mantis .panel .panel-heading, #mantis .panel .panel-body {
     padding: 7px;
 }
