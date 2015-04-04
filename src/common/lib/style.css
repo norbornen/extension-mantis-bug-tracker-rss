@@ -1,9 +1,11 @@
 body {
-    color: rgb(201, 201, 201);
+    color: rgb(42, 42, 42);
     font-family: Arial, serif;
     font-size: 13px;
     font-weight: lighter;
     height: auto;
+    margin: 0;
+    padding: 0;
 }
 #header {
     position: fixed;
@@ -23,19 +25,16 @@ body {
     text-align: center;
     line-height: 36px;
 }
-#header .opt {
-    position: absolute;
-    top: 30%;
-    right: 3px;
-    font-size: 10px;
-}
-#header .opt span {
-    margin: 0 2px;
+#settings {
+    position: fixed;
+    top: 0;
+    right: 0px;
+    font-size: 12px;
     cursor: pointer;
+    color: #666666;
 }
-#content {
-    color: rgb(42, 42, 42);
-    margin: 42px 5px 0 5px;
+#content-popup {
+    margin: 5px;
 }
 #errors .alert {
     overflow-x: hidden;
@@ -56,15 +55,12 @@ body {
     cursor: pointer;
     margin-top: 0;
     margin-bottom: 0;
-    padding-bottom: 7px;
+    padding-bottom: 5px;
 }
 #mantis .panel h4 a {
     font-size: 14px;
     text-decoration: none;
     color: rgb(38, 38, 38);
-}
-mantis .panel h4 a:hover {
-    text-decoration: underline;
 }
 #mantis .panel .panel-body {
     font-size: 12px;
@@ -93,6 +89,7 @@ mantis .panel h4 a:hover {
     height: 3em;
 }
 #options {
+    margin: 42px 5px 0 5px;
     min-width: 250px;
     max-width: 600px;
     width: 70%;

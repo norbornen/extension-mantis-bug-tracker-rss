@@ -15,7 +15,7 @@ KangoAPI.onReady(function(){
 	/*
 		Навесим обработчики на ссылки
 	*/
-	$('#content').on('click', 'a', function(e){
+	$('#content-popup').on('click', 'a', function(e){
 		e.stopPropagation();
 		e.preventDefault();
 		kango.browser.tabs.create({'url': $(this).attr('href')});
