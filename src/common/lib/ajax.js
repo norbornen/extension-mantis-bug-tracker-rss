@@ -19,9 +19,9 @@ function ajax(url) {
 					} else {
 						result = {'error': 'Could not detect content type for ' + url, 'txt': txt};
 					}
-					resolve(result);
+					return resolve(result);
 				} else {
-					resolve({'url': url, 'status': data.status, 'error': data.response || 'Could not load ' + url});
+					return resolve({'url': url, 'status': data.status, 'error': data.response || 'Could not load ' + url});
 				}
 			}
 		);

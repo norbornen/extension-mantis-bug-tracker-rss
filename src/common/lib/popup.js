@@ -22,20 +22,22 @@ KangoAPI.onReady(function(){
 	});
 
 
-
 	/*
-		Show preloader
-	*/
-	var preloader = new Preloader();
-	$('body').prepend(preloader.run());
-
-	/*
-		Poll urls
+		Make tasks for urls polling
 	*/
 	var storage = new Storage(),
 		tasks = storage.urls().map(function(url){ return ajax(url); }),
 		tasksLength = tasks.length;
 	if (tasksLength > 0) {
+		/*
+			Show preloader
+		*/
+		var preloader = new Preloader();
+		$('body').prepend(preloader.run());
+
+		/*
+			Calculate colors for panels
+		*/
 		var colors = [];
 		if (tasksLength > 1) {
 			var rainbow = new Rainbow();
@@ -47,16 +49,10 @@ KangoAPI.onReady(function(){
 		}
 
 		Q.all(tasks)
-		.then(function(results){
-			preloader.hide();
-			return results;
-		})
 		.then(
 			function(results){
-				console.log(results);
-				var items = [],
-					dates =[],
-					errors = [];
+				preloader.hide();
+				var items = [], dates =[], errors = [];
 				results.forEach(function(n, idx){
 					if (n.error) {
 						errors.push(new Err(n));
@@ -99,6 +95,9 @@ KangoAPI.onReady(function(){
 			},
 			function(err){
 				console.error(err);
+				preloader.hide();
+				(new Err({'error': err})).write();
+				storage.items().forEach(function(o){ (new Item(o)).write(); })
 			}
 		);
 	} else {
@@ -109,34 +108,31 @@ KangoAPI.onReady(function(){
 });
 
 function Item(data) {
-	var self = this;
 	$.extend(true, this, data);
 
-	this.write = function(el){
-		var html = tmpl('template_mantis', {
-			'title': self.title,
-			'href': self.link,
-			'date': moment(self.pubDate).calendar(),
-			'category': self.category,
-			'feed': self.feed.title,
-			'feedHref': self.feed.link,
-			'bgColor': self.bgColor
+	this.html = function(){
+		return tmpl('template_mantis', {
+			'title': this.title,
+			'href': this.link,
+			'date': moment(this.pubDate).calendar(),
+			'category': this.category,
+			'description': this.description,
+			'feed': this.feed.title,
+			'feedHref': this.feed.link,
+			'bgColor': this.bgColor
 		});
-		if (el) {
-			el.append(html);
-		}
-		return html;
+	};
+	this.write = function(el){
+		(el || $('#mantis')).append(this.html());
 	};
 }
 function Err(data){
-	var self = this;
 	$.extend(true, this, data);
 
+	this.html = function(){
+		return tmpl('template_error', this);
+	};
 	this.write = function(el){
-		var html = tmpl('template_error', self);
-		if (el) {
-			el.append(html);
-		}
-		return html;
+		(el || $('#errors')).append(this.html());
 	};
 }
