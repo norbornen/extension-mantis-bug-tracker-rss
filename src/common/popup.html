@@ -20,7 +20,7 @@
     <script src="lib/preloader.js"></script>
     <script src="lib/popup.js"></script>
 </head>
-<body class="body500">
+<body>
     <div id="settings">
         <span class="glyphicon glyphicon-cog" role="icon-settings" title="Settings" data-toggle="tooltip" data-placement="left"></span>
     </div>
@@ -34,7 +34,7 @@
             <%= error %>
         </div>
     </script>
-    <script type="text/html" id="__template_mantis">
+    <script type="text/html" id="template_mantis__simple">
         <div class="panel panel-default panel300" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
             <div class="panel-heading" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
                 <h4><a href="<%= href %>"><%= title %></a></h4>
@@ -58,7 +58,7 @@
             </div>
         </div>
     </script>
-    <script type="text/html" id="template_mantis">
+    <script type="text/html" id="template_mantis__full">
         <div class="panel panel-default panel500">
             <div class="panel-heading">
                 <div class="row">
@@ -75,14 +75,14 @@
             </div>
             <div class="panel-body">
                 <h4><a href="<%= href %>"><%= title %></a></h4>
-                <div><%= description %></div>
+                <div class="description"><%= description %></div>
             </div>
             <div class="panel-footer">
-                <span class="btn btn-default">
+                <span class="btn btn-xs btn-default">
                     <span class="glyphicon glyphicon-time"></span> <span><%= date %></span>
                 </span>
 				<% if (category) { %>
-                    <span class="btn btn-default">
+                    <span class="btn btn-xs btn-default">
                         <span class="glyphicon glyphicon-tag"></span> <%= category %>
                     </span>
 				<% } %>

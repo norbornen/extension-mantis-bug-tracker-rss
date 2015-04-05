@@ -2,6 +2,7 @@ function Storage(){
 	this.urlsName = 'urls';
 	this.badgeName = 'badge';
 	this.itemsName = 'items';
+	this.viewName = 'view';
 }
 Storage.prototype = {
 	/*
@@ -37,7 +38,7 @@ Storage.prototype = {
 	/*
 		Badge
 	*/
-	'badge' : function (n){
+	'badge' : function (){
 		var badge = kango.storage.getItem(this.badgeName);
 		return parseInt(badge || 0, 10);
 	},
@@ -50,10 +51,20 @@ Storage.prototype = {
 	/*
 		Items
 	*/
-	'items' : function (n){
+	'items' : function (){
 		return kango.storage.getItem(this.itemsName) || [];
 	},
 	'saveItems' : function(items) {
 		kango.storage.setItem(this.itemsName, items || []);
-	}
+	},
+
+	/*
+		View
+	*/
+	'view' : function (){
+		return kango.storage.getItem(this.viewName) || 'simple';
+	},
+	'saveView' : function(n) {
+		kango.storage.setItem(this.viewName, n);
+	},
 };

@@ -1,9 +1,15 @@
 KangoAPI.onReady(function(){
+	var storage = new Storage();
 	/*
 		User defined locale set
 	*/
 	var locale = window.navigator.userLanguage || window.navigator.language || 'en';
 	moment.locale(locale);
+
+	/*
+		Apply page view
+	*/
+	$('body').addClass(storage.view() === 'full' ? 'body500' : 'body300');
 
 	/*
 		Покажем как открывается страница с настройками
@@ -13,20 +19,40 @@ KangoAPI.onReady(function(){
 	}).tooltip();
 
 	/*
-		Навесим обработчики на ссылки
+		Add listeners
 	*/
-	$('#content-popup').on('click', 'a', function(e){
+	$('#content-popup')
+	.on('click', 'a', function(e){
+		/*
+			For all tags "a", link open on new tab
+		*/
 		e.stopPropagation();
 		e.preventDefault();
 		kango.browser.tabs.create({'url': $(this).attr('href')});
+	})
+	.on('click', '[role="next"]', function(){
+		var el = $(this).closest('.panel'), next = el.next('.panel');
+		if (next.length === 0) {
+			next = el.parent().find('.panel:first');
+		}
+		el.hide();
+		next.show();
+	})
+	.on('click', '[role="prev"]', function(){
+		var el = $(this).closest('.panel'), next = el.prev('.panel');
+		if (next.length === 0) {
+			next = el.parent().find('.panel:last');
+		}
+		el.hide();
+		next.show();
 	});
+
 
 
 	/*
 		Make tasks for urls polling
 	*/
-	var storage = new Storage(),
-		tasks = storage.urls().map(function(url){ return ajax(url); }),
+	var tasks = storage.urls().map(function(url){ return ajax(url); }),
 		tasksLength = tasks.length;
 	if (tasksLength > 0) {
 		/*
@@ -41,7 +67,7 @@ KangoAPI.onReady(function(){
 		var colors = [];
 		if (tasksLength > 1) {
 			var rainbow = new Rainbow();
-	        rainbow.setSpectrum('e1e1e1', 'ffffff');
+	        rainbow.setSpectrum('eaeaea', 'ffffff');
 	        rainbow.setNumberRange(1, tasksLength);
 	        for (var i = 1; i <= tasksLength; i++) {
 	            colors.push('#' + rainbow.colourAt(i));
@@ -61,7 +87,7 @@ KangoAPI.onReady(function(){
 						(list || []).forEach(function(item){
 							item.feed = n;
 							item.bgColor = colors[idx];
-							items.push(new Item(item));
+							items.push(new Item(item, {'storage': storage}));
 							dates.push(Date.parse(item.pubDate));
 						});
 					}
@@ -107,13 +133,15 @@ KangoAPI.onReady(function(){
 	}
 });
 
-function Item(data) {
+function Item(data, opt) {
 	$.extend(true, this, data);
+	var storage = (opt || (opt = {})).storage || (new Storage());
 
 	this.html = function(){
+		var template = 'template_mantis__' + storage.view();
 		// todo: forbidden html tags filter
 		var description = $('<div>').html(typeof this.description === 'string' ? this.description : this.description['#cdata']).text();
-		return tmpl('template_mantis', {
+		return tmpl(template, {
 			'title': this.title,
 			'href': this.link,
 			'date': moment(this.pubDate).calendar(),

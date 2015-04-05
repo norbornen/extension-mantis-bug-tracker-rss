@@ -108,6 +108,12 @@ body.body500 {
     margin-right: 3px;
     height: 3em;
 }
+#mantis .panel500 {
+    display: none;
+}
+#mantis .panel500:first-child {
+    display: block;
+}
 #mantis .panel500 .panel-heading {
     background-color: #f5f5f5;
     border-color: #ddd;
@@ -125,6 +131,10 @@ body.body500 {
     padding: 2px 8px;
     color: #666666;
     cursor: pointer;
+}
+#mantis .panel500 .panel-body .description {
+    max-height: 200px;
+    overflow-y: scroll;
 }
 #options {
     margin: 42px 5px 0 5px;

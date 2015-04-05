@@ -12,12 +12,16 @@ KangoAPI.onReady(function(){
 	storage.urls().forEach(function(url){
 		newString(url);
 	});
+	$('.panel-heading .btn-group input[value="' + storage.view() + '"]')
+		.prop('checked', true).closest('label').addClass('active');
+	$('#header h1').append($('<span> ' + kango.getExtensionInfo().version + '</span>').css({'font-size': '.8em'}));
+
 
 	/**
 	 *	clicks and change events
 	 */
 	$('#options')
-	.on('change', 'input', function(e){
+	.on('change', '.panel-body input', function(e){
 		save();
 	})
 	.on('click', 'button[role="delete"]', function(e){
@@ -26,13 +30,21 @@ KangoAPI.onReady(function(){
 	})
 	.on('click', 'button[role="add"]', function(e){
 		newString();
+	})
+	.on('change', '.panel-heading .btn-group input', function(){
+		var val = $(this).val(), label = $(this).closest('label');
+		label.siblings().removeClass('active').end().addClass('active');
+		storage.saveView(val);
+		return true;
 	});
 
 	/**
 	 *	create new string from template
 	 */
 	function newString(url){
-		optionsBody.append(tmpl('template_string', {'url': url}));
+		var html = $(tmpl('template_string', {'url': url}));
+		optionsBody.append(html);
+		$('input', html).trigger('focus');
 	}
 	/**
 	 *	store all data
