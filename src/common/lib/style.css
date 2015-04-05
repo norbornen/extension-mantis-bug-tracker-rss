@@ -48,6 +48,10 @@ body.body500 {
     cursor: pointer;
     color: #666666;
 }
+.body500 #settings {
+    top: inherit;
+    bottom: 0;
+}
 #content-popup {
     margin: 5px;
 }

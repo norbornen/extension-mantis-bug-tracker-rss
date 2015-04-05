@@ -14,14 +14,6 @@ Storage.prototype = {
 	'urls': function(){
 		return Object.keys(this.rawData());
 	},
-	'touchUrl': function(url){
-		url = url.replace(/^\s+|\s+$/g, '');
-		var data = this.rawData();
-		if (!data.hasOwnProperty(url)) {
-			data[url] = {};
-			this.save(data);
-		}
-	},
 	'save' : function(data){
 		kango.storage.setItem(this.urlsName, data);
 	},
