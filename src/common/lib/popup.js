@@ -97,7 +97,7 @@ KangoAPI.onReady(function(){
 				console.error(err);
 				preloader.hide();
 				(new Err({'error': err})).write();
-				storage.items().forEach(function(o){ (new Item(o)).write(); })
+				storage.items().forEach(function(o){ (new Item(o)).write(); });
 			}
 		);
 	} else {
@@ -111,12 +111,14 @@ function Item(data) {
 	$.extend(true, this, data);
 
 	this.html = function(){
+		// todo: forbidden html tags filter
+		var description = $('<div>').html(typeof this.description === 'string' ? this.description : this.description['#cdata']).text();
 		return tmpl('template_mantis', {
 			'title': this.title,
 			'href': this.link,
 			'date': moment(this.pubDate).calendar(),
 			'category': this.category,
-			'description': this.description,
+			'description': description,
 			'feed': this.feed.title,
 			'feedHref': this.feed.link,
 			'bgColor': this.bgColor

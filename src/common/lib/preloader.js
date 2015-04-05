@@ -10,6 +10,7 @@ function Preloader(opt){
 								window.msRequestAnimationFrame,
 		c = document.createElement('canvas'),
 		g = c.getContext('2d');
+	c.className = 'preloader';
 	c.width = this.width || (this.width = 50);
 	c.height = this.height || (this.height = 50);
 	var TOTALRAD = this.height/5;

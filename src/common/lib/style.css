@@ -11,11 +11,11 @@ body.body300 {
     max-width: 300px;
     min-width: 250px;
 }
-body.body600 {
-    max-width: 600px;
-    min-width: 550px;
+body.body500 {
+    max-width: 500px;
+    min-width: 450px;
 }
-canvas {
+.preloader {
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
@@ -59,52 +59,72 @@ canvas {
 #mantis .panel {
     margin-bottom: 10px;
 }
-#mantis .panel .panel-heading {
-    border-color: transparent;
-}
-#mantis .panel .panel-heading, #mantis .panel .panel-body {
+#mantis .panel .panel-heading, #mantis .panel .panel-body, #mantis .panel .panel-footer {
     padding: 7px;
 }
 #mantis .panel .panel-body {
     padding-top: 0;
 }
-#mantis .panel h4 {
+#mantis .panel .panel-body, #mantis .panel .panel-footer {
+    font-size: 12px;
+}
+#mantis .panel  .row {
+  margin-right: -4px;
+  margin-left: -4px;
+}
+#mantis .panel .col-xs-4, #mantis .panel .col-xs-8,
+#mantis .panel .col-xs-10, #mantis .panel .col-xs-2,
+#mantis .panel .col-xs-9, #mantis .panel .col-xs-3 {
+  padding-right: 4px;
+  padding-left: 4px;
+}
+#mantis .panel300 .panel-heading {
+    border-color: transparent;
+}
+#mantis .panel300 h4 {
     font-size: 13px;
     cursor: pointer;
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
 }
-#mantis .panel h4 a {
+#mantis .panel300 h4 a {
     font-size: 14px;
     text-decoration: none;
     color: rgb(38, 38, 38);
 }
-#mantis .panel .panel-body {
-    font-size: 12px;
-}
-#mantis .panel .panel-body .row {
-  margin-right: -4px;
-  margin-left: -4px;
-}
-#mantis .panel .panel-body .col-xs-4, #mantis .panel .panel-body .col-xs-8 {
-  padding-right: 4px;
-  padding-left: 4px;
-}
-#mantis .panel .panel-body .label {
+#mantis .panel300 .panel-body .label {
     white-space: normal;
     text-align: left;
     padding: .4em;
     margin-bottom: 2px;
 }
-#mantis .panel .panel-body .label-b {
+#mantis .panel300 .panel-body .label-b {
     display: block;
 }
-#mantis .panel .panel-body .label-b .glyphicon {
+#mantis .panel300 .panel-body .label-b .glyphicon {
     display: block;
     float: left;
     margin-right: 3px;
     height: 3em;
+}
+#mantis .panel500 .panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+#mantis .panel500 .panel-heading a {
+    color: rgb(38, 38, 38);
+    text-decoration: none;
+}
+#mantis .panel500 .panel-heading .pagination {
+    margin: 0;
+    display: block;
+    font-size: 13px;
+}
+#mantis .panel500 .panel-heading .pagination li span {
+    padding: 2px 8px;
+    color: #666666;
+    cursor: pointer;
 }
 #options {
     margin: 42px 5px 0 5px;
