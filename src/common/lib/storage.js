@@ -22,6 +22,11 @@ Storage.prototype = {
 			newData = {};
 		urls.forEach(function(url){
 			url = url.replace(/^\s+|\s+$/g, '');
+			if (url.indexOf('//') === 0) {
+				url = 'http:' + url;
+			} else if (url.indexOf('http') !== 0) {
+				url = 'http://' + url;
+			}
 			newData[ url ] = data[ url ] || {};
 		});
 		this.save(newData);
