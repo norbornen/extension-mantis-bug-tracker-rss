@@ -108,7 +108,10 @@ KangoAPI.onReady(function(){
 				*/
 				$('#mantis').empty()
 					.append(items.map(function(o){ return o.write(); }))
-					.find('[data-toggle="tooltip"]').tooltip();
+					.find('[data-toggle="tooltip"]').tooltip().end()
+					.find('.page-number').each(function(idx, el){
+						$(el).text((idx+1) + ' of ' + items.length);
+					});
 				$('#errors').empty()
 					.append(errors.map(function(o){ return o.write(); }));
 
