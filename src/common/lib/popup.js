@@ -156,7 +156,9 @@ function Item(data, opt) {
 		});
 	};
 	this.write = function(el){
-		(el || $('#mantis')).append(this.html());
+		var html = $(this.html());
+		$('img', html).addClass('img-responsive');
+		(el || $('#mantis')).append(html);
 	};
 }
 function Err(data){
