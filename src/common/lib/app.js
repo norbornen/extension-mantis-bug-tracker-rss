@@ -42,7 +42,23 @@
 	// Singletons
 	app.storage = new Storage();
 	app.badge = new Badge();
-	app.preloader = new Preloader();
+
+	// Handlers
+	app.showPreloader = function(el){
+		if (!this.preloader) {
+			this.preloader = new Preloader();
+		}
+		if (!el || el.length === 0) {
+			el = $('body').first();
+		}
+		el.prepend(this.preloader.run());
+	};
+	app.hidePreloader = function(){
+		if (this.preloader) {
+			this.preloader.hide();
+		}
+	};
+
 
 	/**
 	 * Data storage

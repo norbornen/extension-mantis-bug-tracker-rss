@@ -7,11 +7,11 @@ body {
     margin: 0;
     padding: 0;
 }
-body.body300 {
+body.body-simple {
     max-width: 300px;
     min-width: 250px;
 }
-body.body500 {
+body.body-full {
     max-width: 500px;
     min-width: 450px;
 }

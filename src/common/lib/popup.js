@@ -6,11 +6,6 @@ KangoAPI.onReady(function(){
 	moment.locale(locale);
 
 	/*
-		Apply page view
-	*/
-	$('body').addClass(app.storage.view() === 'full' ? 'body500' : 'body300');
-
-	/*
 		Покажем как открывается страница с настройками
 	*/
 	$('[role="icon-settings"]').on('click', function(){
@@ -59,7 +54,7 @@ KangoAPI.onReady(function(){
 		/*
 			Show preloader
 		*/
-		$('body').prepend(app.preloader.run());
+		app.showPreloader();
 
 		/*
 			Calculate colors for panels
@@ -77,7 +72,6 @@ KangoAPI.onReady(function(){
 		Q.all(tasks)
 		.then(
 			function(results){
-				app.preloader.hide();
 				var items = [], dates =[], errors = [];
 				results.forEach(function(n, idx){
 					if (n.error) {
@@ -92,41 +86,34 @@ KangoAPI.onReady(function(){
 						});
 					}
 				});
+				/*
+					items collected from several feeds. sort this array by pubDate,
+					store items to localStorage
+				*/
+				items = items.sort(function(a, b){ return Date.parse(b.pubDate) - Date.parse(a.pubDate); });
+				if (items.length > 0) {
+					app.storage.saveItems(items);
+				}
+
+				/*
+					display items and errors
+				*/
+				new Field({
+					'items'		: items,
+					'errors'	: errors
+				});
 
 				/*
 					renew badge
 				*/
 				app.badge.handle(Math.max.apply(Math, dates), 1);
-
-				/*
-					items collected from several feeds. sort this array by pubDate
-				*/
-				items = items.sort(function(a, b){ return Date.parse(b.pubDate) - Date.parse(a.pubDate); });
-
-				/*
-					display items and errors
-				*/
-				$('#mantis').empty()
-					.append(items.map(function(o){ return o.write(); }))
-					.find('[data-toggle="tooltip"]').tooltip().end()
-					.find('.page-number').each(function(idx, el){
-						$(el).text((idx+1) + ' of ' + items.length);
-					});
-				$('#errors').empty()
-					.append(errors.map(function(o){ return o.write(); }));
-
-				/*
-					store items to localStorage
-				*/
-				if (items.length > 0) {
-					app.storage.saveItems(items);
-				}
 			},
 			function(err){
 				console.error(err);
-				app.preloader.hide();
-				(new Err({'error': err})).write();
-				app.storage.items().forEach(function(o){ (new Item(o)).write(); });
+				new Field({
+					'items'		: app.storage.items(),
+					'errors'	: [new Err({'error': err})]
+				});
 			}
 		);
 	} else {
@@ -136,6 +123,31 @@ KangoAPI.onReady(function(){
 	}
 });
 
+function Field(opt){
+	var VIEW = app.storage.view(),
+		errors = opt.errors || [],
+		items = opt.items || [],
+		itemsContainer = $('#mantis'),
+		errorsContainer = $('#errors');
+
+	/*
+		Apply page view
+	*/
+	$('body').addClass('body-' + VIEW);
+	app.hidePreloader();
+	itemsContainer.empty();
+	errorsContainer.empty();
+
+	itemsContainer
+		.append(items.map(function(o){ return o.write(); }))
+		.find('[data-toggle="tooltip"]').tooltip().end()
+		.find('.page-number').each(function(idx, el){
+			$(el).text((idx+1) + ' of ' + items.length);
+		});
+
+	errorsContainer
+		.append(errors.map(function(o){ return o.write(); }));
+}
 function Item(data, opt) {
 	$.extend(true, this, data);
 
