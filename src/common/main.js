@@ -1,6 +1,5 @@
 function MantisBTExtension() {
     var self = this;
-    this.storage = new Storage();
 
     setTimeout(function(){
         self.poll();
@@ -10,9 +9,9 @@ function MantisBTExtension() {
 MantisBTExtension.prototype = {
     'poll' : function(){
         var self = this,
-            storage = this.storage,
-            tasks = storage.urls().map(function(url){ return ajax(url); }),
-            badge = new Badge();
+            tasks = app.storage.urls().map(function(url){
+                        return app.ajax(url);
+                    });
 
     	if (tasks.length > 0) {
             Q.all(tasks).then(
@@ -26,14 +25,14 @@ MantisBTExtension.prototype = {
                             });
         				}
         			});
-                    badge.handle(Math.max.apply(Math, dates));
+                    app.badge.handle(Math.max.apply(Math, dates));
         		},
         		function(err){
         			console.error(err);
         		}
         	);
         } else {
-            badge.touch('?');
+            app.badge.touch('?');
         }
 
         setTimeout(function(){

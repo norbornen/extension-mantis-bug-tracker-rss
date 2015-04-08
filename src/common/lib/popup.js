@@ -1,5 +1,4 @@
 KangoAPI.onReady(function(){
-	var storage = new Storage();
 	/*
 		User defined locale set
 	*/
@@ -9,7 +8,7 @@ KangoAPI.onReady(function(){
 	/*
 		Apply page view
 	*/
-	$('body').addClass(storage.view() === 'full' ? 'body500' : 'body300');
+	$('body').addClass(app.storage.view() === 'full' ? 'body500' : 'body300');
 
 	/*
 		Покажем как открывается страница с настройками
@@ -52,14 +51,15 @@ KangoAPI.onReady(function(){
 	/*
 		Make tasks for urls polling
 	*/
-	var tasks = storage.urls().map(function(url){ return ajax(url); }),
+	var tasks = app.storage.urls().map(function(url){
+						return app.ajax(url);
+				}),
 		tasksLength = tasks.length;
 	if (tasksLength > 0) {
 		/*
 			Show preloader
 		*/
-		var preloader = new Preloader();
-		$('body').prepend(preloader.run());
+		$('body').prepend(app.preloader.run());
 
 		/*
 			Calculate colors for panels
@@ -77,7 +77,7 @@ KangoAPI.onReady(function(){
 		Q.all(tasks)
 		.then(
 			function(results){
-				preloader.hide();
+				app.preloader.hide();
 				var items = [], dates =[], errors = [];
 				results.forEach(function(n, idx){
 					if (n.error) {
@@ -87,7 +87,7 @@ KangoAPI.onReady(function(){
 						(list || []).forEach(function(item){
 							item.feed = n;
 							item.bgColor = colors[idx];
-							items.push(new Item(item, {'storage': storage}));
+							items.push(new Item(item));
 							dates.push(Date.parse(item.pubDate));
 						});
 					}
@@ -96,7 +96,7 @@ KangoAPI.onReady(function(){
 				/*
 					renew badge
 				*/
-				(new Badge()).handle(Math.max.apply(Math, dates), 1);
+				app.badge.handle(Math.max.apply(Math, dates), 1);
 
 				/*
 					items collected from several feeds. sort this array by pubDate
@@ -119,18 +119,18 @@ KangoAPI.onReady(function(){
 					store items to localStorage
 				*/
 				if (items.length > 0) {
-					storage.saveItems(items);
+					app.storage.saveItems(items);
 				}
 			},
 			function(err){
 				console.error(err);
-				preloader.hide();
+				app.preloader.hide();
 				(new Err({'error': err})).write();
-				storage.items().forEach(function(o){ (new Item(o)).write(); });
+				app.storage.items().forEach(function(o){ (new Item(o)).write(); });
 			}
 		);
 	} else {
-		(new Badge()).touch('?');
+		app.badge.touch('?');
 		window.close();
 		kango.ui.optionsPage.open();
 	}
@@ -138,10 +138,9 @@ KangoAPI.onReady(function(){
 
 function Item(data, opt) {
 	$.extend(true, this, data);
-	var storage = (opt || (opt = {})).storage || (new Storage());
 
 	this.html = function(){
-		var template = 'template_mantis__' + storage.view();
+		var template = 'template_mantis__' + app.storage.view();
 		// todo: forbidden html tags filter
 		var description = $('<div>').html(typeof this.description === 'string' ? this.description : this.description['#cdata']).text();
 		return tmpl(template, {

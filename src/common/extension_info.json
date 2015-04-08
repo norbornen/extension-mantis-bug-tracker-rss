@@ -2,14 +2,12 @@
     "name": "Mantis Bug Tracker Feeds Watcher",
     "description": "Mantis Bug Tracker Feeds Watcher",
     "creator": "norbornen",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "content_scripts": [],
     "background_scripts": [
         "lib/vendor/q.js",
         "lib/vendor/xml2json.js",
-        "lib/storage.js",
-        "lib/badge.js",
-        "lib/ajax.js",
+        "lib/app.js",
         "main.js"
     ],
     "browser_button": {

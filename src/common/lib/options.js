@@ -1,18 +1,13 @@
 KangoAPI.onReady(function(){
-	/**
-	*
-	*/
-	var storage = new Storage(),
-		optionsBody = $('#options .panel .panel-body'),
-		badge = new Badge();
+	var optionsBody = $('#options .panel .panel-body');
 
 	/**
 	 *	onLoad page
 	 */
-	storage.urls().forEach(function(url){
+	app.storage.urls().forEach(function(url){
 		newString(url);
 	});
-	$('.panel-heading .btn-group input[value="' + storage.view() + '"]')
+	$('.panel-heading .btn-group input[value="' + app.storage.view() + '"]')
 		.prop('checked', true).closest('label').addClass('active');
 	$('#header h1').append($('<span> ' + kango.getExtensionInfo().version + '</span>').css({'font-size': '.8em'}));
 
@@ -34,7 +29,7 @@ KangoAPI.onReady(function(){
 	.on('change', '.panel-heading .btn-group input', function(){
 		var val = $(this).val(), label = $(this).closest('label');
 		label.siblings().removeClass('active').end().addClass('active');
-		storage.saveView(val);
+		app.storage.saveView(val);
 		return true;
 	});
 
@@ -56,7 +51,7 @@ KangoAPI.onReady(function(){
 				array.push(el.value);
 			}
 		});
-		storage.renew(array);
-		badge.touch('…');
+		app.storage.renewUrls(array);
+		app.badge.touch('…');
 	}
 });
