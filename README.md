@@ -1,6 +1,6 @@
 # Mantis Bug Tracker rss feeds reader
 
-Browser Extension for reading Mantis Bug Tracker rss feeds.
+[Browser Extension for reading Mantis Bug Tracker rss feeds.](https://chrome.google.com/webstore/detail/mantis-bug-tracker-feeds/ccgphcjlelknofhcpdcllmfbojfmbeif)
 
 https://www.mantisbt.org/
 
