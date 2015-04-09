@@ -11,7 +11,7 @@ body.body-simple {
     max-width: 300px;
     min-width: 250px;
 }
-body.body-full {
+body.body-full, body.body-th {
     max-width: 500px;
     min-width: 450px;
 }
@@ -72,61 +72,62 @@ body.body-full {
 #mantis .panel .panel-body, #mantis .panel .panel-footer {
     font-size: 12px;
 }
-#mantis .panel  .row {
+#mantis .row, #mantis.row {
   margin-right: -4px;
   margin-left: -4px;
 }
-#mantis .panel .col-xs-4, #mantis .panel .col-xs-8,
-#mantis .panel .col-xs-10, #mantis .panel .col-xs-2,
-#mantis .panel .col-xs-9, #mantis .panel .col-xs-3 {
+#mantis .col-xs-4, #mantis .col-xs-8,
+#mantis .col-xs-10, #mantis .col-xs-2,
+#mantis .col-xs-9, #mantis .col-xs-3,
+#mantis .col-xs-6 {
   padding-right: 4px;
   padding-left: 4px;
 }
-#mantis .panel300 .panel-heading {
+#mantis .panel--simple .panel-heading {
     border-color: transparent;
 }
-#mantis .panel300 h4 {
+#mantis .panel--simple h4 {
     font-size: 13px;
     cursor: pointer;
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 5px;
 }
-#mantis .panel300 h4 a {
+#mantis .panel--simple h4 a {
     font-size: 14px;
     text-decoration: none;
     color: rgb(38, 38, 38);
 }
-#mantis .panel300 .panel-body .label {
+#mantis .panel--simple .panel-body .label {
     white-space: normal;
     text-align: left;
     padding: .4em;
     margin-bottom: 2px;
 }
-#mantis .panel300 .panel-body .label-b {
+#mantis .panel--simple .panel-body .label-b {
     display: block;
 }
-#mantis .panel300 .panel-body .label-b .glyphicon {
+#mantis .panel--simple .panel-body .label-b .glyphicon {
     display: block;
     float: left;
     margin-right: 3px;
     height: 1.5em;
 }
-#mantis .panel500 {
+#mantis .panel--full {
     display: none;
 }
-#mantis .panel500:first-child {
+#mantis .panel--full:first-child {
     display: block;
 }
-#mantis .panel500 .panel-heading {
+#mantis .panel--full .panel-heading {
     background-color: #f5f5f5;
     border-color: #ddd;
 }
-#mantis .panel500 .panel-heading a {
+#mantis .panel--full .panel-heading a {
     color: rgb(38, 38, 38);
     text-decoration: none;
 }
-#mantis .panel500 .panel-heading .page-number {
+#mantis .panel--full .panel-heading .page-number {
     vertical-align: bottom;
     line-height: 100%;
     display: inline-block;
@@ -134,17 +135,17 @@ body.body-full {
     font-size: 10px;
     font-weight: lighter;
 }
-#mantis .panel500 .panel-heading .pagination {
+#mantis .panel--full .panel-heading .pagination {
     margin: 0;
     display: block;
     font-size: 13px;
 }
-#mantis .panel500 .panel-heading .pagination li span {
+#mantis .panel--full .panel-heading .pagination li span {
     padding: 2px 7px;
     color: #666666;
     cursor: pointer;
 }
-#mantis .panel500 .panel-body .description {
+#mantis .panel--full .panel-body .description {
     max-height: 200px;
     overflow-y: scroll;
 }

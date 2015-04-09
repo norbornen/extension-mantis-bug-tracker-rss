@@ -1,4 +1,5 @@
 KangoAPI.onReady(function(){
+	app.field = new Field();
 	/*
 		User defined locale set
 	*/
@@ -14,28 +15,25 @@ KangoAPI.onReady(function(){
 
 	/*
 		Add listeners
-	*/
-	$('#content-popup')
-	.on('click', 'a', function(e){
-		/*
 			For all tags "a", link open on new tab
-		*/
+	*/
+	$('#content-popup').on('click', 'a', function(e){
 		e.stopPropagation();
 		e.preventDefault();
 		kango.browser.tabs.create({'url': $(this).attr('href')});
 	})
 	.on('click', '[role="next"]', function(){
-		var el = $(this).closest('.panel'), next = el.next('.panel');
+		var el = $(this).closest('[role="item"]'), next = el.next('[role="item"]');
 		if (next.length === 0) {
-			next = el.parent().find('.panel:first');
+			next = el.parent().find('[role="item"]:first');
 		}
 		el.hide();
 		next.show();
 	})
 	.on('click', '[role="prev"]', function(){
-		var el = $(this).closest('.panel'), next = el.prev('.panel');
+		var el = $(this).closest('[role="item"]'), next = el.prev('[role="item"]');
 		if (next.length === 0) {
-			next = el.parent().find('.panel:last');
+			next = el.parent().find('[role="item"]:last');
 		}
 		el.hide();
 		next.show();
@@ -98,7 +96,7 @@ KangoAPI.onReady(function(){
 				/*
 					display items and errors
 				*/
-				new Field({
+				app.field.write({
 					'items'		: items,
 					'errors'	: errors
 				});
@@ -110,7 +108,7 @@ KangoAPI.onReady(function(){
 			},
 			function(err){
 				console.error(err);
-				new Field({
+				app.field({
 					'items'		: app.storage.items(),
 					'errors'	: [new Err({'error': err})]
 				});
@@ -123,55 +121,95 @@ KangoAPI.onReady(function(){
 	}
 });
 
-function Field(opt){
-	var VIEW = app.storage.view(),
-		errors = opt.errors || [],
-		items = opt.items || [],
-		itemsContainer = $('#mantis'),
+/**
+ *
+ */
+function Field(){
+	var itemsContainer = $('#mantis'),
 		errorsContainer = $('#errors');
 
-	/*
-		Apply page view
-	*/
-	$('body').addClass('body-' + VIEW);
-	app.hidePreloader();
-	itemsContainer.empty();
-	errorsContainer.empty();
+	this.write = function(data){
+		var view = app.storage.view(),
+			errors = data.errors || [],
+			items = data.items || [];
 
-	itemsContainer
-		.append(items.map(function(o){ return o.write(); }))
-		.find('[data-toggle="tooltip"]').tooltip().end()
-		.find('.page-number').each(function(idx, el){
-			$(el).text((idx+1) + ' of ' + items.length);
-		});
+		$('body').removeClass().addClass('body-' + view);
+		app.hidePreloader();
 
-	errorsContainer
-		.append(errors.map(function(o){ return o.write(); }));
+		/*
+			Write items and erros
+		*/
+		errorsContainer.empty()
+			.append(errors.map(function(o){ return o.html(); }));
+		itemsContainer.empty()
+			.append(items.map(function(o){ return o.html(); }));
+
+		/*
+			Correction faces
+		*/
+		itemsContainer
+			.find('[data-toggle="tooltip"]').tooltip().end()
+			.find('.page-number').each(function(idx, el){
+				$(el).text((idx+1) + ' of ' + items.length);
+			});
+		if (view === 'th') {
+			itemsContainer.addClass('row');
+			var array = itemsContainer.find('[role="item"]');
+			array.addClass('col-xs-6');
+			for (var i = 0; i < array.length; i+= 2) {
+				var a = array.eq(i), b = array.eq(i + 1);
+				if (!b || b.length === 0) {
+					break;
+				}
+				var aH = a.height(), bH = b.height(), max = Math.max(aH, bH);
+				(aH !== max) && a.height(max);
+				(bH !== max) && b.height(max);
+			}
+		}
+	};
 }
+/**
+ *
+ */
 function Item(data, opt) {
 	$.extend(true, this, data);
 
+	this.template = function(){
+		var view = app.storage.view();
+		return view === 'th' ? 'template_mantis__simple' : 'template_mantis__' + view;
+	};
 	this.html = function(){
-		var template = 'template_mantis__' + app.storage.view();
-		// todo: forbidden html tags filter
-		var description = $('<div>').html(typeof this.description === 'string' ? this.description : this.description['#cdata']).text();
-		return tmpl(template, {
-			'title': this.title,
-			'href': this.link,
-			'date': moment(this.pubDate).calendar(),
-			'category': this.category,
-			'description': description,
-			'feed': this.feed.title,
-			'feedHref': this.feed.link,
-			'bgColor': this.bgColor
+		var description = (typeof this.description === 'string' ? this.description : this.description['#cdata']) || '';
+		if (description !== undefined && /\S/.test(description)) {
+			description = (new DOMParser()).parseFromString(description, 'text/html').body.innerText;
+			description = description.replace(/<script.+?script>/gm, '')
+									.replace(/<style.+?style>/gm, '')
+									.replace(/<(meta|link).+?\/\s*>/gm, '')
+									.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
+									.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
+									.replace(/<img /g, '<img class="img-responsive" ');
+		}
+
+		return tmpl(this.template(), {
+			'item' : {
+				'title': this.title,
+				'href': this.link,
+				'date': moment(this.pubDate).calendar(),
+				'category': this.category,
+				'description': description,
+				'feed': this.feed.title,
+				'feedHref': this.feed.link,
+				'bgColor': this.bgColor
+			}
 		});
 	};
 	this.write = function(el){
-		var html = $(this.html());
-		$('img', html).addClass('img-responsive');
-		(el || $('#mantis')).append(html);
+		el.append(this.html());
 	};
 }
+/**
+ *
+ */
 function Err(data){
 	$.extend(true, this, data);
 
@@ -179,6 +217,6 @@ function Err(data){
 		return tmpl('template_error', this);
 	};
 	this.write = function(el){
-		(el || $('#errors')).append(this.html());
+		el.append(this.html());
 	};
 }

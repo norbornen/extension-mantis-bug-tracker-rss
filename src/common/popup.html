@@ -32,58 +32,62 @@
         </div>
     </script>
     <script type="text/html" id="template_mantis__simple">
-        <div class="panel panel-default panel300" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
-            <div class="panel-heading" style="<%= bgColor ? 'background-color: ' + bgColor : '' %>">
-                <h4><a href="<%= href %>"><%= title %></a></h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <span class="label label-b label-primary">
-                            <span class="glyphicon glyphicon-time" style="display: block"></span> <span><%= date %></span>
-                        </span>
-                    </div>
-                    <div class="col-xs-8">
-                        <a href="<%= feedHref %>" title="<%= feedHref %>" class="label label-b label-primary" data-toggle="tooltip" data-placement="bottom">
-                            <%= feed %>
-                        </a>
-						<% if (category) { %>
-	                        <span class="label label-info"><span class="glyphicon glyphicon-tag"></span> <%= category %></span>
-						<% } %>
+        <div class="panel--simple" role="item">
+            <div class="panel panel-default" style="<%= item.bgColor ? 'background-color: ' + item.bgColor : '' %>">
+                <div class="panel-heading" style="<%= item.bgColor ? 'background-color: ' + item.bgColor : '' %>">
+                    <h4><a href="<%= item.href %>"><%= item.title %></a></h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <span class="label label-b label-primary">
+                                <span class="glyphicon glyphicon-time" style="display: block"></span> <span><%= item.date %></span>
+                            </span>
+                        </div>
+                        <div class="col-xs-8">
+                            <a href="<%= item.feedHref %>" title="<%= item.feedHref %>" class="label label-b label-primary" data-toggle="tooltip" data-placement="bottom">
+                                <%= item.feed %>
+                            </a>
+    						<% if (item.category) { %>
+    	                        <span class="label label-info"><span class="glyphicon glyphicon-tag"></span> <%= item.category %></span>
+    						<% } %>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </script>
     <script type="text/html" id="template_mantis__full">
-        <div class="panel panel-default panel500">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <a href="<%= feedHref %>" title="<%= feedHref %>"><%= feed %></a>
-                    </div>
-                    <div class="col-xs-4 text-right">
-                        <span class="page-number"></span>
-                        <ul class="pagination pull-right">
-                            <li role="prev"><span class="glyphicon glyphicon-menu-left"></span></li>
-                            <li role="next"><span class="glyphicon glyphicon-menu-right"></span></li>
-                        </ul>
+        <div class="panel--full" role="item">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <a href="<%= item.feedHref %>" title="<%= item.feedHref %>"><%= item.feed %></a>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <span class="page-number"></span>
+                            <ul class="pagination pull-right">
+                                <li role="prev"><span class="glyphicon glyphicon-menu-left"></span></li>
+                                <li role="next"><span class="glyphicon glyphicon-menu-right"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-body">
-                <h4><a href="<%= href %>"><%= title %></a></h4>
-                <div class="description"><%= description %></div>
-            </div>
-            <div class="panel-footer">
-                <span class="btn btn-xs btn-default">
-                    <span class="glyphicon glyphicon-time"></span> <%= date %>
-                </span>
-				<% if (category) { %>
+                <div class="panel-body">
+                    <h4><a href="<%= item.href %>"><%= item.title %></a></h4>
+                    <div class="description"><%= item.description %></div>
+                </div>
+                <div class="panel-footer">
                     <span class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-tag"></span> <span><%= category %></span>
+                        <span class="glyphicon glyphicon-time"></span> <%= item.date %>
                     </span>
-				<% } %>
+    				<% if (item.category) { %>
+                        <span class="btn btn-xs btn-default">
+                            <span class="glyphicon glyphicon-tag"></span> <span><%= item.category %></span>
+                        </span>
+    				<% } %>
+                </div>
             </div>
         </div>
     </script>
