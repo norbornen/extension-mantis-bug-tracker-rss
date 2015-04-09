@@ -1,6 +1,9 @@
 
 *	запихнуть опрос свежестей в invokeAsync
 
+*	уйти от использования bootstarp-овских шрифтов, заменив нужные символы
+	на картинки в data: виде
+
 *	http://*.*.*/api/soap/mantisconnect.php
 	http://*.*.*/api/soap/mantisconnect.php?wsdl
 
