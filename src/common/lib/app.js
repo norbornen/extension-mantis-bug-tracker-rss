@@ -39,15 +39,17 @@
 		});
 	};
 	app._sanitize = function(txt){
-		txt = (typeof txt === 'string' ? txt : txt[ '#cdata' ]) || '';
-		if (txt !== undefined && /\S/.test(txt)) {
-			txt = (new DOMParser()).parseFromString(txt, 'text/html').body.innerText;
-			txt = txt.replace(/<script.+?script>/gm, '')
-									.replace(/<style.+?style>/gm, '')
-									.replace(/<(meta|link).+?\/\s*>/gm, '')
-									.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
-									.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
-									.replace(/<img /g, '<img class="img-responsive" ');
+		if (txt) {
+			txt = (typeof txt === 'string' ? txt : txt[ '#cdata' ]) || '';
+			if (txt !== undefined && /\S/.test(txt)) {
+				txt = (new DOMParser()).parseFromString(txt, 'text/html').body.innerText;
+				txt = txt.replace(/<script.+?script>/gm, '')
+										.replace(/<style.+?style>/gm, '')
+										.replace(/<(meta|link).+?\/\s*>/gm, '')
+										.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
+										.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
+										.replace(/<img /g, '<img class="img-responsive" ');
+			}
 		}
 		return txt;
 	};
