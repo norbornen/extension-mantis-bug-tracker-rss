@@ -3,7 +3,7 @@ KangoAPI.onReady(function(){
 	/*
 		User defined locale set
 	*/
-	var locale = window.navigator.userLanguage || window.navigator.language || 'en';
+	var locale = window.navigator.userLanguage || (window.navigator.languages ? window.navigator.languages[0] : undefined) || window.navigator.language || 'en';
 	moment.locale(locale);
 
 	/*
