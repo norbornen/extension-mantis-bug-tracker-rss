@@ -1,2 +1,6 @@
 
 *	запихнуть опрос свежестей в invokeAsync
+
+*	http://*.*.*/api/soap/mantisconnect.php
+	http://*.*.*/api/soap/mantisconnect.php?wsdl
+
