@@ -1,6 +1,11 @@
 KangoAPI.onReady(function(){
 	app.field = new Field();
 	/*
+		Display old items when page onload
+	*/
+	app.field.write({'items': app.storage.items()});
+
+	/*
 		User defined locale set
 	*/
 	var locale = window.navigator.userLanguage || (window.navigator.languages ? window.navigator.languages[0] : undefined) || window.navigator.language || 'en';
@@ -107,8 +112,7 @@ KangoAPI.onReady(function(){
 				app.badge.handle(Math.max.apply(Math, dates), 1);
 			},
 			function(err){
-				console.error(err);
-				app.field({
+				app.field.write({
 					'items'		: app.storage.items(),
 					'errors'	: [new Err({'error': err})]
 				});
@@ -140,9 +144,16 @@ function Field(){
 			Write items and erros
 		*/
 		errorsContainer.empty()
-			.append(errors.map(function(o){ return o.html(); }));
+			.append(errors.map(function(o){
+				return o.html();
+			}));
 		itemsContainer.empty()
-			.append(items.map(function(o){ return o.html(); }));
+			.append(items.map(function(o){
+				if (o.constructor.name != 'Item') {
+					o = new Item(o);
+				}
+				return o.html();
+			}));
 
 		/*
 			Correction faces
@@ -179,27 +190,16 @@ function Item(data, opt) {
 		return view === 'th' ? 'template_mantis__simple' : 'template_mantis__' + view;
 	};
 	this.html = function(){
-		var description = (typeof this.description === 'string' ? this.description : this.description['#cdata']) || '';
-		if (description !== undefined && /\S/.test(description)) {
-			description = (new DOMParser()).parseFromString(description, 'text/html').body.innerText;
-			description = description.replace(/<script.+?script>/gm, '')
-									.replace(/<style.+?style>/gm, '')
-									.replace(/<(meta|link).+?\/\s*>/gm, '')
-									.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
-									.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
-									.replace(/<img /g, '<img class="img-responsive" ');
-		}
-
 		return tmpl(this.template(), {
 			'item' : {
-				'title': this.title,
-				'href': this.link,
-				'date': moment(this.pubDate).calendar(),
-				'category': this.category,
-				'description': description,
-				'feed': this.feed.title,
-				'feedHref': this.feed.link,
-				'bgColor': this.bgColor
+				'title'			: app._sanitize(this.title),
+				'href'			: this.link,
+				'date'			: moment(this.pubDate).calendar(),
+				'category'		: app._sanitize(this.category),
+				'description'	: app._sanitize(this.description),
+				'feed'			: app._sanitize(this.feed.title),
+				'feedHref'		: this.feed.link,
+				'bgColor'		: this.bgColor
 			}
 		});
 	};
