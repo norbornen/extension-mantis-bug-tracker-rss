@@ -47,6 +47,7 @@ body.body-full, body.body-th {
     font-size: 12px;
     cursor: pointer;
     color: #666666;
+    z-index: 100;
 }
 .body500 #settings {
     top: inherit;
