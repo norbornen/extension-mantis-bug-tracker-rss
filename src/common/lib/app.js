@@ -45,6 +45,7 @@
 				txt = (new DOMParser()).parseFromString(txt, 'text/html').body.innerText;
 				txt = txt.replace(/<script.+?script>/gm, '')
 										.replace(/<style.+?style>/gm, '')
+										.replace(/<i?frame.+?frame>/gm, '')
 										.replace(/<(meta|link).+?\/\s*>/gm, '')
 										.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
 										.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
