@@ -11,9 +11,13 @@ body.body-simple {
     max-width: 300px;
     min-width: 250px;
 }
-body.body-full, body.body-th {
+body.body-full {
     max-width: 500px;
     min-width: 450px;
+}
+body.body-th {
+    max-width: 500px;
+    min-width: 460px;
 }
 .preloader {
     padding-left: 0;
@@ -74,15 +78,15 @@ body.body-full, body.body-th {
     font-size: 12px;
 }
 #mantis .row, #mantis.row {
-  margin-right: -4px;
-  margin-left: -4px;
+  margin-right: -3px;
+  margin-left: -3px;
 }
 #mantis .col-xs-4, #mantis .col-xs-8,
 #mantis .col-xs-10, #mantis .col-xs-2,
 #mantis .col-xs-9, #mantis .col-xs-3,
 #mantis .col-xs-6 {
-  padding-right: 4px;
-  padding-left: 4px;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 #mantis .panel--simple .panel-heading {
     border-color: transparent;
