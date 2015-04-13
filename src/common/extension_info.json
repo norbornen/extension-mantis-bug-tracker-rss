@@ -2,7 +2,7 @@
     "name": "Mantis Bug Tracker Rss Reader",
     "description": "Mantis Bug Tracker Rss Reader",
     "creator": "norbornen",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "content_scripts": [],
     "background_scripts": [
         "lib/vendor/q.js",

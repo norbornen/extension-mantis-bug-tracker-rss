@@ -38,7 +38,8 @@
 			o[key] = param[key];
 		});
 	};
-	app._sanitize = function(txt){
+	var entityMap = {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': '&quot;', "'": '&#39;', "/": '&#x2F;'};
+	app._sanitizeText = function(txt, opt){
 		if (txt) {
 			txt = (typeof txt === 'string' ? txt : txt[ '#cdata' ]) || '';
 			if (txt !== undefined && /\S/.test(txt)) {
@@ -50,9 +51,21 @@
 										.replace(/class=".+?"/gm, '').replace(/class='.+?'/gm, '')
 										.replace(/style=".+?"/gm, '').replace(/style='.+?'/gm, '')
 										.replace(/<img /g, '<img class="img-responsive" ');
+
+				txt = txt.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ');
+				if (opt && opt.escape === 1) {
+					txt = txt.replace(/[&<>"'\/]/g, function (s) {
+								return entityMap[s] || s;
+					});
+				}
 			}
 		}
 		return txt;
+	};
+	app._urlEscape = function(txt){
+		return (txt || '').replace(/[<>"']/g, function (s) {
+					return entityMap[s] || s;
+		});
 	};
 
 	// Singletons
@@ -103,13 +116,15 @@
 				var data = self._rawUrls(),
 					newData = {};
 				urls.forEach(function(url){
-					url = url.replace(/^\s+|\s+$/g, '');
-					if (url.indexOf('//') === 0) {
-						url = 'http:' + url;
-					} else if (url.indexOf('http') !== 0) {
-						url = 'http://' + url;
+					url = app._urlEscape(app._sanitizeText(url || '')).replace(/^\s+|\s+$/g, '');
+					if (url !== undefined && /\S/.test(url)) {
+						if (url.indexOf('//') === 0) {
+							url = 'http:' + url;
+						} else if (url.indexOf('http') !== 0) {
+							url = 'http://' + url;
+						}
+						newData[ url ] = data[ url ] || {};
 					}
-					newData[ url ] = data[ url ] || {};
 				});
 				self.saveUrls(newData);
 			},

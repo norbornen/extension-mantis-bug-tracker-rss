@@ -192,13 +192,13 @@ function Item(data, opt) {
 	this.html = function(){
 		return tmpl(this.template(), {
 			'item' : {
-				'title'			: app._sanitize(this.title),
-				'href'			: this.link,
-				'date'			: moment(this.pubDate).calendar(),
-				'category'		: app._sanitize(this.category),
-				'description'	: app._sanitize(this.description),
-				'feed'			: app._sanitize(this.feed.title),
-				'feedHref'		: this.feed.link,
+				'title'			: app._sanitizeText(this.title),
+				'href'			: app._urlEscape(app._sanitizeText(this.link)) || '#',
+				'date'			: moment(app._sanitizeText(this.pubDate)).calendar(),
+				'category'		: app._sanitizeText(this.category),
+				'description'	: app._sanitizeText(this.description),
+				'feed'			: app._sanitizeText(this.feed.title),
+				'feedHref'		: app._urlEscape(app._sanitizeText(this.feed.link)) || '#',
 				'bgColor'		: this.bgColor
 			}
 		});
